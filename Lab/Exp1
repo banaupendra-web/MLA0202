@@ -1,0 +1,50 @@
+import matplotlib.pyplot as plt
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+
+X = [
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1]
+]
+
+y = [0, 0, 1, 1]
+
+model = DecisionTreeClassifier(
+    criterion="entropy",
+    random_state=42
+)
+
+model.fit(X, y)
+
+predictions = model.predict(X)
+
+print("Actual Classes     :", y)
+print("Predicted Classes  :", predictions)
+
+new_data = [
+    [0, 1],
+    [1, 0],
+    [1, 1],
+    [0, 0]
+]
+
+new_predictions = model.predict(new_data)
+
+print("\nNew Data:")
+print(new_data)
+
+print("Predictions:")
+print(new_predictions)
+
+plt.figure(figsize=(8, 6))
+
+plot_tree(
+    model,
+    filled=True,
+    feature_names=["Feature 1", "Feature 2"],
+    class_names=["Class 0", "Class 1"]
+)
+
+plt.title("ID3 Decision Tree")
+plt.show()
