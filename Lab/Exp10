@@ -1,0 +1,47 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.mixture import GaussianMixture
+
+np.random.seed(42)
+
+X1 = np.random.normal(3, 1, 100)
+X2 = np.random.normal(7, 1, 100)
+
+X = np.concatenate([X1, X2]).reshape(-1, 1)
+
+model = GaussianMixture(
+    n_components=2,
+    random_state=42
+)
+
+model.fit(X)
+
+labels = model.predict(X)
+
+print("Cluster Means:")
+print(model.means_)
+
+print("\nCluster Weights:")
+print(model.weights_)
+
+print("\nNumber of Iterations:", model.n_iter_)
+
+plt.scatter(
+    X[:, 0], np.zeros(len(X)),
+    c=labels, cmap='viridis',
+    label='Data Points'
+)
+
+for mean in model.means_:
+    plt.axvline(
+        x=mean[0], color='red',
+        linestyle='--'
+    )
+
+plt.xlabel("Data Values")
+plt.ylabel("Cluster")
+plt.title("Expectation-Maximization Algorithm")
+plt.legend()
+plt.grid(True)
+plt.show()
+
