@@ -1,0 +1,20 @@
+import matplotlib.pyplot as plt
+
+attributes = [
+    "Sky", "AirTemp", "Humidity",
+    "Wind", "Water", "Forecast"
+]
+hypothesis = [
+    "Sunny", "Warm", "?",
+    "Strong", "?", "?"
+]
+
+plt.figure(figsize=(8, 4))
+plt.bar(attributes, range(1, 7))
+
+plt.xlabel("Attributes")
+plt.ylabel("Hypothesis Position")
+plt.title("FIND-S Final Hypothesis")
+plt.grid(axis="y")
+
+plt.show()
