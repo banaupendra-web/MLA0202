@@ -1,0 +1,43 @@
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+
+months = np.array(range(1, 13)).reshape(-1, 1)
+
+sales = np.array([
+    100, 120, 130, 150, 170, 180,
+    200, 220, 230, 250, 270, 300
+])
+
+model = LinearRegression()
+model.fit(months, sales)
+
+predicted_sales = model.predict(months)
+
+future_months = np.array([13, 14, 15, 16, 17, 18]).reshape(-1, 1)
+future_sales = model.predict(future_months)
+
+print("Future Sales Prediction:")
+for month, value in zip(future_months, future_sales):
+    print("Month", month[0], "Sales:", round(value, 2))
+
+print("R2 Score:", r2_score(sales, predicted_sales))
+
+plt.scatter(months, sales, label="Actual Sales")
+plt.plot(months, predicted_sales, label="Predicted Sales")
+plt.plot(future_months, future_sales, marker="o",
+         label="Future Sales")
+
+plt.xlabel("Month")
+plt.ylabel("Sales")
+plt.title("Future Sales Prediction")
+plt.legend()
+plt.grid()
+plt.show()
+
+plt.bar(future_months.flatten(), future_sales)
+plt.xlabel("Future Months")
+plt.ylabel("Predicted Sales")
+plt.title("Future Sales Graph")
+plt.show()
