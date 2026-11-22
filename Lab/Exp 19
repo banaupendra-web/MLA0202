@@ -1,0 +1,64 @@
+
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score, confusion_matrix, ConfusionMatrixDisplay
+
+X = [
+    [25, 30000, 1],
+    [35, 50000, 2],
+    [45, 60000, 3],
+    [23, 20000, 0],
+    [40, 70000, 3],
+    [28, 35000, 1],
+    [50, 80000, 4],
+    [30, 40000, 2],
+    [22, 25000, 0],
+    [38, 65000, 3],
+    [48, 75000, 4],
+    [26, 32000, 1]
+]
+
+y = [0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0]
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.25, random_state=42
+)
+
+model = GaussianNB()
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+accuracy = accuracy_score(y_test, y_pred)
+
+print("Accuracy:", accuracy * 100, "%")
+print("Actual Values:", y_test)
+print("Predicted Values:", y_pred)
+
+cm = confusion_matrix(y_test, y_pred)
+
+disp = ConfusionMatrixDisplay(
+    confusion_matrix=cm,
+    display_labels=["Rejected", "Approved"]
+)
+disp.plot(cmap="Blues")
+plt.title("Bank Loan Prediction")
+plt.show()
+
+plt.plot(y_test, marker="o", label="Actual")
+plt.plot(y_pred, marker="s", label="Predicted")
+plt.xlabel("Customer Number")
+plt.ylabel("Loan Status")
+plt.title("Actual vs Predicted Loan Status")
+plt.legend()
+plt.grid()
+plt.show()
+
+new_customer = [[32, 45000, 2]]
+prediction = model.predict(new_customer)
+
+if prediction[0] == 1:
+    print("Loan Approved")
+else:
+    print("Loan Rejected")
